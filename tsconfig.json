@@ -1,0 +1,9 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "outDir": "dist",
+    // module override, needed for client-side code
+    "module": "esnext"
+  },
+  "extends": "@tsconfig/recommended/tsconfig.json"
+}

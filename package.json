@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.10",
+    "typescript": "5.9.2"
+  },
+  "scripts": {
+    "prebuild": "rm -rf ./dist",
+    "build": "tsc",
+    "postbuild": "cp ./src/index.html ./dist/index.html && cp ./src/styles.css ./dist/styles.css",
+    "predev": "cp ./src/index.html ./dist/index.html && cp ./src/styles.css ./dist/styles.css",
+    "dev": "tsc --watch"
+  }
+}
