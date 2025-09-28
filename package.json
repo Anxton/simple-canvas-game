@@ -4,10 +4,8 @@
     "typescript": "5.9.2"
   },
   "scripts": {
-    "prebuild": "rm -rf ./dist",
+    "prebuild": "rm -rf dist && mkdir dist && cp -f ./src/index.html ./src/styles.css ./dist",
     "build": "tsc",
-    "postbuild": "cp ./src/index.html ./dist/index.html && cp ./src/styles.css ./dist/styles.css",
-    "predev": "cp ./src/index.html ./dist/index.html && cp ./src/styles.css ./dist/styles.css",
-    "dev": "tsc --watch"
+    "dev": "npm run prebuild && tsc --watch"
   }
 }
