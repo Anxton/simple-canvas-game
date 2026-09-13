@@ -1,11 +1,12 @@
 {
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.10",
-    "typescript": "5.9.2"
+    "@tsconfig/recommended": "^1.0.13",
+    "typescript": "7.0.2",
+    "vite": "^8.3.0"
   },
   "scripts": {
-    "prebuild": "rm -rf dist && mkdir dist && cp -f ./src/index.html ./src/styles.css ./dist",
-    "build": "tsc",
-    "dev": "npm run prebuild && tsc --watch"
+    "dev": "vite src",
+    "build": "tsc --noEmit && vite build src --outDir ../dist",
+    "preview": "vite preview dist"
   }
 }

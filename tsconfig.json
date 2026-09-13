@@ -2,8 +2,7 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "outDir": "dist",
-    // module override, needed for client-side code
-    "module": "esnext"
+    "rootDir": "src",
   },
   "extends": "@tsconfig/recommended/tsconfig.json"
 }
