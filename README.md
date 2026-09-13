@@ -1,4 +1,4 @@
-# Simple canvas game
+# Simple 2D Engine
 
 A small 2D game engine experiment built with TypeScript, HTML5 Canvas, and Vite.
 
@@ -37,10 +37,3 @@ Preview the production build locally:
 pnpm preview
 ```
 
-## Project structure
-
-- `src/main.ts` sets up the world, entities, systems, and animation loop.
-- `src/game/core/` contains the world and entity management.
-- `src/game/components/` contains stores.
-- `src/game/systems/` contains systems.
-- `src/game/utils/` contains helpers.

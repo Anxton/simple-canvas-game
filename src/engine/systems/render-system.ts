@@ -1,26 +1,25 @@
-import { Position, PositionStore } from "../components/position.js";
+import type { Position } from "../components/position";
 import {
   Sprite,
   SpriteCircle,
   SpriteKind,
   SpriteRectangle,
-  SpriteStore,
-} from "../components/sprite.js";
-import { World } from "../core/world.js";
+} from "../components/sprite";
+import { World } from "../core/world";
 
 export class RenderSystem {
-  constructor(
-    private world: World,
-    private ctx: CanvasRenderingContext2D,
-    private pos: PositionStore,
-    private shape: SpriteStore
-  ) {}
+  world: World;
+  ctx: CanvasRenderingContext2D;
+
+  constructor(world: World, ctx: CanvasRenderingContext2D) {
+    this.world = world;
+    this.ctx = ctx;
+  }
 
   render = () => {
     this.clear();
-
-    this.renderNumberOfEntities();
     this.renderEntities();
+    this.renderNumberOfEntities();
   };
 
   /** Clear the canvas */
@@ -31,7 +30,7 @@ export class RenderSystem {
   /** Write in the center of the canvas the number of entities */
   private renderNumberOfEntities = () => {
     this.ctx.fillStyle = "black";
-    this.ctx.font = "150px Jetbrains Mono";
+    this.ctx.font = "200px JetBrainsMono Nerd Font";
     this.ctx.textBaseline = "middle";
     const text = this.world.numberOfEntities.toString();
     const textMetrics = this.ctx.measureText(text);
@@ -44,11 +43,11 @@ export class RenderSystem {
   /** Render all entities */
   private renderEntities() {
     for (const entity of this.world.entities) {
-      const pos = this.pos.get(entity);
+      const pos = this.world.positions.get(entity);
       if (pos) {
-        const shape = this.shape.get(entity);
-        if (shape) {
-          this.draw(pos, shape);
+        const sprite = this.world.sprites.get(entity);
+        if (sprite) {
+          this.draw(pos, sprite);
         }
       }
     }

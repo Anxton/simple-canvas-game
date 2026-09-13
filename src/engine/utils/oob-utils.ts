@@ -2,15 +2,15 @@ import {
   Collider,
   ColliderBox,
   ColliderCircle,
-  ColliderKind,
   ColliderPolygon,
-} from "../components/collider.js";
-import { World } from "../core/world.js";
+  ColliderType,
+} from "../components/collider";
+import { World } from "../core/world";
 
 const isOOBBox = (
   pos: { x: number; y: number },
   collider: ColliderBox,
-  world: World
+  world: World,
 ) => {
   return (
     pos.x < -collider.width ||
@@ -23,7 +23,7 @@ const isOOBBox = (
 const isOOBCircle = (
   pos: { x: number; y: number },
   collider: ColliderCircle,
-  world: World
+  world: World,
 ) => {
   return (
     pos.x < -collider.radius ||
@@ -36,7 +36,7 @@ const isOOBCircle = (
 const isOOBPolygon = (
   pos: { x: number; y: number },
   collider: ColliderPolygon,
-  world: World
+  world: World,
 ) => {
   // TODO
   return false;
@@ -45,14 +45,14 @@ const isOOBPolygon = (
 export const isOOB = (
   pos: { x: number; y: number },
   collider: Collider,
-  world: World
+  world: World,
 ) => {
   switch (collider.kind) {
-    case ColliderKind.Box:
+    case ColliderType.Box:
       return isOOBBox(pos, collider as ColliderBox, world);
-    case ColliderKind.Circle:
+    case ColliderType.Circle:
       return isOOBCircle(pos, collider as ColliderCircle, world);
-    case ColliderKind.Polygon:
+    case ColliderType.Polygon:
       return isOOBPolygon(pos, collider as ColliderPolygon, world);
     default:
       return false;

@@ -1,4 +1,4 @@
-import { Vec2 } from "../types.js";
+export type Vec2 = { x: number; y: number; };
 
 export const V = {
   add: (a: Vec2, b: Vec2): Vec2 => ({ x: a.x + b.x, y: a.y + b.y }),
