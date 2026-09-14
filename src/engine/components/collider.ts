@@ -9,10 +9,10 @@ export const ColliderType = {
 export type ColliderType = (typeof ColliderType)[keyof typeof ColliderType];
 
 export abstract class Collider {
-  kind: ColliderType;
+  type: ColliderType;
 
-  constructor(kind: ColliderType) {
-    this.kind = kind;
+  constructor(type: ColliderType) {
+    this.type = type;
   }
 }
 

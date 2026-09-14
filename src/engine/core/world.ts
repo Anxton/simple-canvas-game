@@ -1,4 +1,5 @@
 import { Collider } from "../components/collider";
+import type { Collision } from "../components/collision";
 import type { Position } from "../components/position";
 import { Sprite } from "../components/sprite";
 import type { Velocity } from "../components/velocity";
@@ -18,13 +19,9 @@ export class World {
   velocities = new ComponentStore<Velocity>();
   colliders = new ComponentStore<Collider>();
   sprites = new ComponentStore<Sprite>();
+  collisions = [] as Collision[];
 
-  stores: ComponentStore<any>[] = [
-    this.positions,
-    this.velocities,
-    this.colliders,
-    this.sprites,
-  ];
+  stores: ComponentStore<any>[] = [this.positions, this.velocities, this.colliders, this.sprites];
 
   constructor(width: number = 800, height: number = 600) {
     this.width = width;
@@ -32,17 +29,14 @@ export class World {
   }
 
   createEntity = () => {
-    const id = this._entities.length;
+    const id = Math.max(...this._entities, 0) + 1;
     this._entities.push(id);
     return id;
   };
 
   removeEntity = (entity: Entity) => {
-    this._entities = this._entities.filter((e) => e !== entity);
     this.stores.forEach((store) => store.remove(entity));
-    if (this._entities.length === 0) {
-      window.cancelAnimationFrame(this.terminationSignal);
-    }
+    this._entities = this._entities.filter((e) => e !== entity);
   };
 
   get numberOfEntities() {
@@ -53,7 +47,7 @@ export class World {
    * Get a copy of the entities array
    * @return array of entities
    */
-  get entities() {
+  entities(): Entity[] {
     return [...this._entities];
   }
 }

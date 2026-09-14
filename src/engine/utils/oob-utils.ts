@@ -7,11 +7,7 @@ import {
 } from "../components/collider";
 import { World } from "../core/world";
 
-const isOOBBox = (
-  pos: { x: number; y: number },
-  collider: ColliderBox,
-  world: World,
-) => {
+const isOOBBox = (pos: { x: number; y: number }, collider: ColliderBox, world: World) => {
   return (
     pos.x < -collider.width ||
     pos.x > world.width ||
@@ -20,11 +16,7 @@ const isOOBBox = (
   );
 };
 
-const isOOBCircle = (
-  pos: { x: number; y: number },
-  collider: ColliderCircle,
-  world: World,
-) => {
+const isOOBCircle = (pos: { x: number; y: number }, collider: ColliderCircle, world: World) => {
   return (
     pos.x < -collider.radius ||
     pos.x > world.width + collider.radius ||
@@ -33,21 +25,13 @@ const isOOBCircle = (
   );
 };
 
-const isOOBPolygon = (
-  pos: { x: number; y: number },
-  collider: ColliderPolygon,
-  world: World,
-) => {
+const isOOBPolygon = (pos: { x: number; y: number }, collider: ColliderPolygon, world: World) => {
   // TODO
   return false;
 };
 
-export const isOOB = (
-  pos: { x: number; y: number },
-  collider: Collider,
-  world: World,
-) => {
-  switch (collider.kind) {
+export const isOOB = (pos: { x: number; y: number }, collider: Collider, world: World) => {
+  switch (collider.type) {
     case ColliderType.Box:
       return isOOBBox(pos, collider as ColliderBox, world);
     case ColliderType.Circle:

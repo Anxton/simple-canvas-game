@@ -7,9 +7,8 @@ import { PhysicsSystem } from "../engine/systems/physics-system";
 import { RenderSystem } from "../engine/systems/render-system";
 
 export class Game {
-
   private world: World;
-  private physicsSystem: PhysicsSystem
+  private physicsSystem: PhysicsSystem;
   private collisionSystem: CollisionSystem;
   private renderSystem: RenderSystem;
 
@@ -21,40 +20,45 @@ export class Game {
     this.physicsSystem = new PhysicsSystem(this.world);
     this.collisionSystem = new CollisionSystem(this.world);
     this.renderSystem = new RenderSystem(this.world, canvas2DContext);
-
   }
 
-  start(): void {
+  init(): void {
     // Initialize the game
-    this.init();
+    this.initGame();
 
     // Main loop
     let last: DOMHighResTimeStamp;
 
-    // cap at ~16ms ~ 60fps
-    const MAX_DT = 1 / 1;
+    // cap at 16.67ms ~ 60fps
+    const MAX_DT = 1 / 60;
 
-    // cap at ~7ms ~ 144fps
+    // cap at 7.08ms ~ 144fps
     // const MAX_DT = 1 / 144;
 
-    const tick = (now: DOMHighResTimeStamp) => {
-      this.world.terminationSignal = requestAnimationFrame(tick);
+    const updateGameFrame = (now: DOMHighResTimeStamp) => {
+      this.world.terminationSignal = requestAnimationFrame(updateGameFrame);
       const dt = Math.min((now - last) / 1000, MAX_DT);
       last = now;
 
-      this.collisionSystem.detectCollisions();
-      this.physicsSystem.updatePhysics(dt);
-      this.renderSystem.render();
+      this.processGameTick(dt, now);
     };
 
     // Start
     requestAnimationFrame((t) => {
       last = t;
-      tick(t);
+      updateGameFrame(t);
     });
   }
 
-  private init(): void {
+  private processGameTick(dt: number, now: number) {
+    this.physicsSystem.updatePhysics(dt);
+    this.collisionSystem.detectCollisions();
+    this.physicsSystem.resolveCollisions();
+    this.world.collisions.length = 0;
+    this.renderSystem.render(dt, now);
+  }
+
+  private initGame(): void {
     // 10 random entities
     // refactor for loop
     for (let i = 0; i < 10; i++) {
@@ -69,10 +73,20 @@ export class Game {
     this.world.positions.set(e, V.random(this.world.width, this.world.height));
     this.world.velocities.set(e, V.between(-200, 200, -200, 200));
 
-    // Random size between 10 and 30
-    const size = 10 + Math.ceil(Math.random() * 20);
+    // Random size between 40 and 120
+    const size = 40 + Math.ceil(Math.random() * 80);
     this.world.colliders.set(e, new ColliderCircle(size));
     const randomColor = this.COLORS[Math.floor(Math.random() * this.COLORS.length)];
     this.world.sprites.set(e, new SpriteCircle(size, randomColor));
+  }
+
+  clearEntities(): void {
+    for (const entity of this.world.entities()) {
+      this.world.removeEntity(entity);
+    }
+  }
+
+  stop(): void {
+    cancelAnimationFrame(this.world.terminationSignal);
   }
 }

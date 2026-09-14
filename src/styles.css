@@ -5,10 +5,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-}
-body {
-  width: 100%;
-  height: 100%;
+  font-family: "JetBrainsMono Nerd Font", monospace;
 }
 .game-container {
   width: 100%;
@@ -19,8 +16,22 @@ body {
   justify-content: center;
   align-items: center;
 }
-canvas {
-  width: calc(100% - 20vw);
+.topbar {
+  width: calc(100% - 30vw);
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+}
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  justify-content: center;
+  align-items: center;
+}
+.game {
+  width: calc(100% - 30vw);
   height: auto; /* Important to keep aspect ratio */
   max-width: 100vw;
   max-height: 100vh; /* Make sure it doesn’t overflow vertically */
